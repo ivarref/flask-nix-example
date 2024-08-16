@@ -20,7 +20,21 @@
             # Runtime package
             packages.app = poetry2nix.mkPoetryApplication {
               projectDir = ./.;
-              propagatedBuildInputs = with pkgs; [ curl bash ];
+              propagatedBuildInputs = with pkgs; [ curl bash coreutils which ];
+              nativeBuildInputs = [ pkgs.makeWrapper ];
+#              installPhase = ''
+#                echo "hello"
+#                mkdir -p $out/bin
+#                echo ${lib.makeBinPath [ pkgs.curl ]} > $out/bin/wtf.txt
+#                echo janei > $out/bin/demo.sh
+#                ls -lrt
+#                '';
+              postInstall = ''
+                mkdir -p $out/bin
+                echo janei > $out/bin/ugg.sh
+                echo ${lib.makeBinPath [ pkgs.curl ]} > $out/bin/curl.txt
+              '';
+
             };
 
             # The default package when a specific package name isn't specified.

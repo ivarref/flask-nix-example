@@ -9,7 +9,7 @@ def sorted_directory_listing_with_pathlib_glob(directory):
     items = path_object.glob('**/*')
     sorted_items = sorted(items, key=lambda item: item.absolute())
     items = [str(item.absolute()) for item in sorted_items]
-    items = [item for item in items if "curl" in item]
+    items = [item for item in items if item.endswith('/curl') or item.endswith('/bash')]
     return items
 
 @app.route("/")
@@ -17,6 +17,7 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 def main():
+    print("Starting main ...")
     for dir in sorted_directory_listing_with_pathlib_glob("/"):
         print(dir)
     for p in sys.path:
