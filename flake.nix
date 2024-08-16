@@ -10,13 +10,6 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        propagatedBuildInputs = with pkgs; [ curl ];
-        propagatedNativeBuildInputs = with pkgs; [ curl ];
-        commonArgs = {
-            inherit propagatedBuildInputs;
-            inherit propagatedNativeBuildInputs;
-        };
-
         myapp = with pkgs; rec {
             # Development environment
             devShell = mkShell {
@@ -25,14 +18,15 @@
             };
 
             # Runtime package
-            packages.app = poetry2nix.mkPoetryApplication (commonArgs // {
+            packages.app = poetry2nix.mkPoetryApplication {
               projectDir = ./.;
-            });
+              propagatedBuildInputs = with pkgs; [ curl bash ];
+            };
 
             # The default package when a specific package name isn't specified.
             defaultPackage = packages.app;
         };
       in
-        commonArgs // myapp
+        myapp
     );
 }
