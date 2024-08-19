@@ -2,7 +2,6 @@
 
 set -eu
 
-docker build -t flask-example:dev .
+docker build -t dev:dev .
 
-docker export "$(docker create "flask-example:dev")" | tar tf - | grep "/curl$"
-#docker export "$(docker create "flask-example:dev")" | tar tf - | grep "/bash$"
+docker export "$(docker create "dev:dev")" | tar tf - | grep "/curl$"
