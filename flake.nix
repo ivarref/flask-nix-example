@@ -51,8 +51,6 @@
                       which
                     ]
                   }
-
-              ln -s $out/bin/bash /bin/bash
             '';
 
           };
